@@ -1,0 +1,351 @@
+/* Element-ui 样式重置 */
+
+/**
+ * loading 样式，这里全局修改一下样式
+ * 调用loading时，也可以设置样式
+ */
+.el-loading-mask {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+/**
+ * 按钮
+ */
+.el-button {
+  background: transparent;
+  color: #fff;
+  // border-color: #8CA0D2;
+  &:hover {
+    // background: transparent;
+  }
+}
+// 保存
+.el-button--primary {
+  background-color: #285aaa;
+  border-color: #285aaa;
+}
+.el-button.is-plain {
+  background: transparent;
+}
+// 授权/呼叫
+.el-button--info.is-plain {
+  border-color: #64ffff;
+  color: #64ffff;
+  &:hover,
+  &:focus {
+    background-color: #64ffff;
+    border-color: #64ffff;
+  }
+}
+// 编辑
+.el-button--success.is-plain {
+  border-color: #44c868;
+}
+// 取消
+.el-button--primary.is-plain {
+  border-color: #8ca0d2;
+  color: #8ca0d2;
+  &:hover,
+  &:active,
+  &:focus {
+    background-color: #8ca0d2;
+    border-color: #8ca0d2;
+  }
+}
+// 删除
+.el-button--danger.is-plain {
+  border-color: #f56c6c;
+  &:hover {
+    border-color: #f56c6c;
+  }
+}
+
+/**
+ * 表格
+ */
+.el-table,
+.el-table thead {
+  color: #fff;
+}
+.el-table::before {
+  height: 0;
+}
+.el-table,
+.el-table__expanded-cell,
+.el-table--enable-row-hover .el-table__body tr:hover > td,
+.el-table th,
+.el-table tr {
+  background-color: transparent;
+}
+
+.el-table__header th,
+.el-table__header tr,
+.el-table--striped .el-table__body tr.el-table__row--striped td {
+  background-color: #0a1946;
+}
+
+.el-table td,
+.el-table th.is-leaf {
+  border: 1px solid #323c78;
+}
+
+/**
+ * 弹窗-dialog
+ */
+.el-dialog {
+  background: #122255;
+  border: 1px solid #285aaa;
+  .el-dialog__body {
+    color: #fff;
+  }
+  .el-dialog__title {
+    color: #fff;
+    padding-bottom: 2px;
+    border-bottom: 1px solid #64ffff;
+  }
+  .el-form-item__label {
+    color: #fff;
+  }
+  /* 弹窗中的输入框 */
+  input {
+    background-color: #122255;
+    border: 1px solid #323c78;
+    border-radius: 4px;
+    color: #8ca0d2;
+  }
+  .el-radio,
+  .el-checkbox {
+    color: #fff;
+  }
+  .el-date-editor {
+    background-color: transparent;
+    .el-range__icon {
+      color: #fff;
+    }
+    .el-range-input {
+      color: #fff;
+    }
+    .el-range-separator {
+      color: #fff;
+    }
+  }
+}
+
+/**
+ * 表单
+ */
+.el-form-item__label {
+  color: #fff;
+}
+
+/**
+ * 提示框，一般用于提示确认 【删除确认，退出登录】
+ */
+.el-message-box {
+  background-color: #122255;
+  border: 1px solid #285aaa;
+  .el-message-box__title,
+  .el-message-box__content {
+    color: #8ca0d2;
+  }
+}
+
+/**
+ * 输入框
+ */
+.el-input input,
+.el-textarea textarea,
+.el-cascader input,
+.vue-treeselect__control {
+  // background-color: transparent !important;
+  background-color: #122255 !important;
+  color: #fff;
+  border: 1px solid #323c78;
+  &:hover {
+    border: 1px solid #aaa;
+  }
+}
+.el-input .el-input__count .el-input__count-inner,
+.el-textarea .el-input__count {
+  background-color: transparent;
+  color: #a7ffeb;
+}
+
+/* vue-tree */
+.vue-treeselect__single-value {
+  color: #fff !important;
+}
+
+/**
+ * 日期选择器中的输入框
+ */
+.el-date-range-picker__editor input {
+  background-color: #fff !important;
+  border: 1px solid #dcdfe6;
+  color: #333;
+}
+
+/**
+ * 日期选择器中的按钮
+ */
+.el-picker-panel__footer .el-button--text {
+  color: #409eff;
+  background: 0 0;
+}
+.el-picker-panel__footer .el-button--default {
+  background: #fff;
+  color: #333;
+}
+
+/**
+ * 树
+ */
+.el-tree {
+  background: transparent;
+  color: #fff;
+  .el-tree-node__content:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  .el-tree-node:focus > .el-tree-node__content {
+    background-color: transparent;
+  }
+  &.el-tree--highlight-current .el-tree-node.is-current > .el-tree-node__content {
+    background-color: rgba(255, 255, 255, 0.3);
+  }
+  .el-tree-node.is-current > .el-tree-node__content {
+    background-color: rgba(255, 255, 255, 0.3);
+    //color: #a7ffeb;
+  }
+}
+
+/**
+ * 分页器
+ */
+.el-pagination__total {
+  color: #8ca0d2;
+}
+.el-pager > li {
+  background: transparent;
+  &.number {
+    color: #fff;
+    &.active {
+      color: #a7ffeb;
+      background: #3a8ee6;
+    }
+  }
+  &:hover {
+    background: #3a8ee6;
+  }
+}
+.el-pagination /deep/ .btn-next,
+.el-pagination /deep/ .btn-prev {
+  color: #fff;
+  background-color: transparent;
+  /deep/ i {
+    &:hover {
+      color: #8ca0d2;
+    }
+  }
+}
+
+// .el-pagination .btn-next:hover > i, .el-pagination .btn-prev:hover > i {
+//   color: #8ca0d2;
+// }
+
+.el-pagination button:disabled {
+  background-color: transparent;
+}
+.el-pagination__jump {
+  color: #8ca0d2;
+}
+
+/**
+ * tab 标签页
+ */
+.el-tabs__item {
+  color: #fff;
+}
+.el-tabs__nav-wrap::after {
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+/**
+ * 单选框，多选框
+ */
+.el-radio,
+.el-checkbox {
+  color: #fff;
+}
+/**
+ * 日期时间选择器
+ */
+.el-date-editor {
+  background-color: transparent;
+  .el-range__icon {
+    color: #fff;
+  }
+  .el-range-input {
+    color: #fff;
+    background-color: transparent;
+  }
+  .el-range-separator {
+    color: #fff;
+  }
+}
+
+/**
+ * collapse 折叠面板
+ */
+.el-collapse-item__header {
+  display: flex;
+  align-items: center;
+  height: 48px;
+  line-height: 48px;
+  background-color: #fff;
+  color: #303133;
+  cursor: pointer;
+  border-bottom: 1px solid #ebeef5;
+  font-size: 13px;
+  font-weight: 500;
+  transition: border-bottom-color 0.3s;
+  outline: 0;
+  background: transparent;
+  color: #ffffff;
+}
+.el-collapse-item__content {
+  padding-bottom: 25px;
+  font-size: 13px;
+  color: #303133;
+  line-height: 1.769230769230769;
+  color: #ffffff;
+}
+.el-collapse-item__wrap {
+  will-change: height;
+  background-color: #fff;
+  overflow: hidden;
+  box-sizing: border-box;
+  border-bottom: 1px solid #ebeef5;
+  background: transparent;
+}
+
+/**
+ * cascader 级联选择器
+ */
+
+
+/**
+ * MessageBox 弹框
+ */
+.el-message-box__wrapper {
+  z-index: 99999 !important;
+}
+
+/**
+  Popover 弹出框
+ */
+.el-popper {
+  padding: 0px;
+}
+
+
