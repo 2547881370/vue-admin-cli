@@ -12,7 +12,6 @@ export default {}
 @import '~@/assets/styles/element-hack';
 @import '~@/assets/styles/common';
 @import '~@/assets/styles/sidebar';
-@import '~@/assets/styles/treeselect-hack';
 </style>
 
 <style lang="less" scoped>

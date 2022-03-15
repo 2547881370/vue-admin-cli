@@ -1,44 +1,13 @@
-import { login, logout } from '@/api/user'
-import { getToken, setToken } from '@/common/auth'
-import { saveToSession, loadFromSession } from '@/common/session-storage'
+import { login, logout } from '@/common/api/user.js'
+import { getToken, setToken } from '@/common/utils/auth.js'
+import SessionStorage from '@/common/utils/session-storage.js'
 import { resetRouter } from '@/router'
-import { getMenuListByUser } from '@/api/menu'
-
-/**
- * 路由tree结构扁平化,同时拼接path
- * @param tree
- * @param result
- * @param level
- * @param path
- * @param previousNode
- * @returns {*[]}
- */
-export function routerTreeToList(tree, result = [], level = 0, path = [], previousNode = {}) {
-  tree.forEach((node, index) => {
-    result.push(node)
-    node.level = level + 1
-    if (node.menuType != 3) {
-      if (node.level === 1) {
-        path = [node.path]
-      } else {
-        if (index === 0) {
-          previousNode = node
-        }
-        if (index !== 0 && previousNode.level === node.level) {
-          path.pop()
-        }
-        path.push(node.path)
-      }
-      node.path = path.join('')
-    }
-    node.children && routerTreeToList(node.children, result, level + 1, path, previousNode)
-  })
-  return result
-}
+import { getMenuListByUser } from '@/common/api/menu.js'
+import Utils from '@/common/utils/utils'
 
 const state = {
   token: getToken(),
-  userId: loadFromSession('userInfo')?.userId ?? ''
+  userId: SessionStorage.loadFromSession('userInfo')?.userId ?? ''
 }
 
 const mutations = {
@@ -58,18 +27,20 @@ const actions = {
       return new Promise((resolve, reject) => {
         login(userInfo)
           .then(async response => {
-            const { data } = response
+            const {
+              data: { data }
+            } = response
             if (data && data.length > 0) {
               const resultUser = data[0]
               commit('SET_TOKEN', userInfo.accessToken)
               commit('SET_UID', resultUser.userId)
               setToken(userInfo.accessToken)
               // 存用户信息
-              saveToSession('userInfo', resultUser)
+              SessionStorage.saveToSession('userInfo', resultUser)
               // 存路由按钮权限
               try {
                 let resultRouter = await dispatch('fetchMenuTreeByUser')
-                saveToSession('userRoutes', resultRouter)
+                SessionStorage.saveToSession('userRoutes', resultRouter)
               } catch (e) {
                 reject(e)
               } finally {
@@ -87,7 +58,7 @@ const actions = {
   },
 
   // 退出登录
-  logout({ commit, dispatch }, data = { type: null }) {
+  logout({ commit }, data = { type: null }) {
     return new Promise(async (resolve, reject) => {
       logout(data)
         .then(async () => {
@@ -123,7 +94,7 @@ const actions = {
     return new Promise(async (resolve, reject) => {
       try {
         let resultRouter = await getMenuListByUser()
-        let routerList = routerTreeToList(resultRouter.data)
+        let routerList = Utils.routerTreeToList(resultRouter.data.data)
         resolve(routerList)
       } catch (e) {
         reject(e)

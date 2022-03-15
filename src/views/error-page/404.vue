@@ -1,4 +1,3 @@
-<script src="../../../../../hcs-web/src/common/request.js"></script>
 <template>
   <div>页面走丢了 <el-button @click.stop="doLogout">退出登录</el-button></div>
 </template>

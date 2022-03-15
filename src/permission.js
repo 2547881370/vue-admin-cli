@@ -1,22 +1,20 @@
 import router from './router'
 import store from './store'
-import { loadFromSession } from '@/common/session-storage'
+import SessionStorage from '@/common/utils/session-storage'
 import { Message } from 'element-ui'
-import { getToken } from '@/common/auth' // get token from cookie
-import getPageTitle from '@/common/get-page-title'
+import { getToken } from '@/common/utils/auth' // get token from cookie
+import getPageTitle from '@/common/utils/get-page-title'
 
 const whiteList = ['/login', '/auth-redirect', '/singleLogion'] // no redirect whitelist
 
 router.beforeEach(async (to, from, next) => {
-  // set page title
   document.title = getPageTitle(to.meta.title)
 
-  // determine whether the user has logged in
   let hasToken = getToken()
 
   if (hasToken) {
     if (to.path === '/login') {
-      if (loadFromSession('userRoutes', []).length < 1) {
+      if (SessionStorage.loadFromSession('userRoutes', []).length < 1) {
         // 路由权限表不存在
         // 退出登录
         await store.dispatch('user/resetToken')
@@ -31,7 +29,7 @@ router.beforeEach(async (to, from, next) => {
         next()
       } else {
         // 否则，再次尝试动态生成路由
-        if (loadFromSession('userRoutes', []).length < 1) {
+        if (SessionStorage.loadFromSession('userRoutes', []).length < 1) {
           // 路由权限表不存在
           // 退出登录
           await store.dispatch('user/resetToken')
@@ -40,7 +38,10 @@ router.beforeEach(async (to, from, next) => {
         }
         try {
           // generate accessible routes map based on roles
-          const accessRoutes = await store.dispatch('permission/generateRoutes', loadFromSession('userRoutes') || [])
+          const accessRoutes = await store.dispatch(
+            'permission/generateRoutes',
+            SessionStorage.loadFromSession('userRoutes') || []
+          )
           // dynamically add accessible routes
           router.addRoutes(accessRoutes)
 

@@ -1,4 +1,4 @@
-import { loadFromSession } from '@/common/session-storage'
+import SessionStorage from '@/common/utils/session-storage'
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
@@ -9,7 +9,7 @@ Vue.use(VueRouter)
 
 // 拿到匹配路由的第一个
 function getFirstRouter() {
-  let routeArr = loadFromSession('userRoutes', [])
+  let routeArr = SessionStorage.loadFromSession('userRoutes', [])
   for (let index = 0; index < routeArr.length; index++) {
     const route = routeArr[index]
     for (let i = 0; i < routeArr.length; i++) {
@@ -26,16 +26,6 @@ function getFirstRouter() {
 
 // 动态生成登录后的跳转页
 function getHomePage() {
-  // let routeArr = loadFromSession('userRoutes', [])
-  // // console.log(routeArr)
-  // for (let i = 0; i < routeArr.length; i++) {
-  //   if (routeArr[i].address == '/primary/monitor') {
-  //     return '/primary/monitor'
-  //   }
-  //   if (routeArr[i].address == '/health/monitor') {
-  //     return '/health/monitor'
-  //   }
-  // }
   return getFirstRouter()
 }
 
@@ -69,14 +59,6 @@ export const constantRoutes = [
     hidden: true,
     meta: { title: '主页面' },
     redirect: () => getHomePage()
-    // children: [
-    // {
-    //   path: 'home',
-    //   component: () => import('@/views/home/index'),
-    //   name: 'Home',
-    //   meta: { title: '主页面', icon: 's-promotion', affix: true }
-    // }
-    // ]
   }
 ]
 
@@ -84,25 +66,33 @@ export const constantRoutes = [
  * 总是需要在VueRouter最末尾的路由，添加到动态路由的后面
  */
 export const endBasicRoutes = [
-  // 无权限页面
   {
-    path: '/no-permission',
-    name: 'NoPermission',
+    path: '/',
+    component: Layout,
     hidden: true,
-    component: () => import('@/views/error-page/no-permission'),
-    meta: {
-      title: '访问无权限'
-    }
-  },
-  // 404 页面路由
-  {
-    path: '*',
-    name: 'NotFound',
-    hidden: true,
-    component: () => import('@/views/error-page/404'),
-    meta: {
-      title: '页面走丢了'
-    }
+    meta: { title: 'redirect' },
+    children: [
+      // 无权限页面
+      {
+        path: '/no-permission',
+        name: 'NoPermission',
+        hidden: true,
+        component: () => import('@/views/error-page/no-permission'),
+        meta: {
+          title: '访问无权限'
+        }
+      },
+      // 404 页面路由
+      {
+        path: '*',
+        name: 'NotFound',
+        hidden: true,
+        component: () => import('@/views/error-page/404'),
+        meta: {
+          title: '页面走丢了'
+        }
+      }
+    ]
   }
 ]
 

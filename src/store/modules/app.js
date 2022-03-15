@@ -1,43 +1,38 @@
 import Cookies from 'js-cookie'
+import Config from '../../config/setting.config'
+import { LanguageKey } from '../../common/enum/common.enum'
+import LocalStorageUtil from '@/common/utils/local-storage.js'
+import i18n from '@/i18n'
 
 const state = {
   sidebar: {
-    opened: Cookies.get('sidebarStatus') ? !!+Cookies.get('sidebarStatus') : true,
-    withoutAnimation: false
+    // 左侧菜单栏 关闭/展开 boolean
+    opened: Cookies.get('sidebarStatus') ? !!+Cookies.get('sidebarStatus') : true
   },
-  size: Cookies.get('size') || 'small'
+  // 语言
+  language: Config.i18n
 }
 
 const mutations = {
   TOGGLE_SIDEBAR: state => {
     state.sidebar.opened = !state.sidebar.opened
-    state.sidebar.withoutAnimation = false
     if (state.sidebar.opened) {
       Cookies.set('sidebarStatus', 1)
     } else {
       Cookies.set('sidebarStatus', 0)
     }
   },
-  CLOSE_SIDEBAR: (state, withoutAnimation) => {
-    Cookies.set('sidebarStatus', 0)
-    state.sidebar.opened = false
-    state.sidebar.withoutAnimation = withoutAnimation
-  },
-  SET_SIZE: (state, size) => {
-    state.size = size
-    Cookies.set('size', size)
+  // 更新语言类型
+  UPDATE_USER_INFO: (state, language) => {
+    state.language = language
+    i18n.locale = language
+    LocalStorageUtil.addItem(LanguageKey, language)
   }
 }
 
 const actions = {
   toggleSideBar({ commit }) {
     commit('TOGGLE_SIDEBAR')
-  },
-  closeSideBar({ commit }, { withoutAnimation }) {
-    commit('CLOSE_SIDEBAR', withoutAnimation)
-  },
-  setSize({ commit }, size) {
-    commit('SET_SIZE', size)
   }
 }
 

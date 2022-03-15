@@ -12,7 +12,7 @@
             <svg-icon icon-class="user" />
           </span>
         </el-form-item>
-        <el-form-item label="密码" prop="password">
+        <el-form-item :label="Utils.translate('login.password')" prop="password">
           <el-input
             ref="pwd"
             :type="showPwd ? 'text' : 'password'"
@@ -36,39 +36,15 @@
   </el-container>
 </template>
 <script>
+/**
+ * TODO 简单的登录页面,mock的数据,根据实际业务需求更改或重写
+ */
 import { mapActions } from 'vuex'
-import { hex_md5 } from '@/common/md5.js'
-import { validateUsername, validatePwd } from '@/common/validate.js'
-import { getToken } from '@/api/token'
+import { validateUsername, validatePwd } from '@/common/utils/validate.js'
+import { getToken } from '@/common/api/token.js'
+import Utils from '@/common/utils/utils.js'
 export default {
-  // beforeRouteLeave(to, from, next) {
-  //   const answer = window.confirm('Do you really want to leave? you have unsaved changes!')
-  //   if (answer) {
-  //     next()
-  //   } else {
-  //     next(false)
-  //   }
-  // },
   data() {
-    const validatePass = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('请输入新密码'))
-      } else {
-        if (this.pwdForm.newPwd2 !== '') {
-          this.$refs.pwdForm.validateField('newPwd2')
-        }
-        callback()
-      }
-    }
-    const validatePass2 = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('请输入确认密码'))
-      } else if (value !== this.pwdForm.newPwd1) {
-        callback(new Error('两次新密码输入不一致!'))
-      } else {
-        callback()
-      }
-    }
     return {
       sysName: process.env.VUE_APP_SYS_NAME,
       showPwd: false,
@@ -91,7 +67,8 @@ export default {
       },
       redirect: undefined,
       otherQuery: {},
-      token: null
+      token: null,
+      Utils: Utils
     }
   },
   watch: {
@@ -143,6 +120,8 @@ export default {
               'PXj5YiBSW1ThEBaBdXWi8Ov7XaB649/UiVtt6UtnccABxZxavJOz7WteMZyDtcJ5kv5uxA0k5ePm2DU6NT08+gDa3Izi1lS9oq4hwD1OwoGWQ6ZY3Z+KDuOEddZPms8tPRbMxjzC7Y85rzYKURHgI5HAjPDLGPKP+Gd0lOoejcE=',
             accessToken: this.token
           }
+
+          // 请求登录接口
           this.login(params)
             .then(() => {
               // 登录成功

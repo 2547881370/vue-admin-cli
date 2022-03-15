@@ -1,30 +1,11 @@
 import { asyncRoutes, constantRoutes, endBasicRoutes } from '@/router'
+import Utils from '@/common/utils/utils'
 
 const state = {
   // 按钮权限
   btns: [],
   routes: constantRoutes,
   addRoutes: []
-}
-
-/**
- * @summary 扁平化数据转tree
- * @param {Array} list
- * @param {String} key 树节点的主键字段名称，如id
- * @param {String} pKey 树节点的父级外键字段名称，如pId
- * @param {String} topPKeyValue 顶级节点的父级外键的值，如'',默认用空
- * @returns {*}
- */
-function formatTree(list, key, pKey, topPKeyValue) {
-  return list.filter(parent => {
-    let findChildren = list.filter(child => {
-      // console.log(parent[key], child[pKey], key)
-      return parent[key] === child[pKey]
-    })
-    // 返回顶层，依据实际情况判断这里的返回值
-    if (findChildren.length > 0) parent.children = findChildren
-    return parent[pKey] == topPKeyValue || parent[pKey] == '' || parent[pKey] == undefined || parent[pKey] == null
-  })
 }
 
 /**
@@ -85,7 +66,7 @@ export function filterAsyncRoutes(asyncRoutes, routes) {
   })
 
   // 有数据
-  let res = formatTree(routes, 'id', 'parentId', '99')
+  let res = Utils.formatTree(routes, 'id', 'parentId', '99')
 
   return res
 }
@@ -118,7 +99,7 @@ const actions = {
     let btns = []
     if (btnPermissions && btnPermissions.length > 0) {
       btnPermissions.forEach(item => {
-        btns.push(item.icon || null)
+        btns.push(item.perms || null)
       })
     }
     commit('SET_BUTTONS', btns)
