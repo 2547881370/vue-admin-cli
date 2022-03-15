@@ -7,10 +7,57 @@
           <el-input
             v-model="queryForm[item.prop]"
             :placeholder="item.placeholder"
-            v-if="item.type === formTypeEnum.text"
+            v-if="item.type === formTypeEnum.text && !item.trim"
             :disabled="item.disabled"
             :type="item.type"
             :maxlength="item.maxlength"
+            @change="onChange"
+          />
+
+          <!--输入框类型 去除前后空格-->
+          <el-input
+            v-model.trim="queryForm[item.prop]"
+            :placeholder="item.placeholder"
+            v-if="item.type === formTypeEnum.text && item.trim"
+            :disabled="item.disabled"
+            :type="item.type"
+            :maxlength="item.maxlength"
+            @change="onChange"
+          />
+
+          <!--密码类型-->
+          <el-input
+            v-model="queryForm[item.prop]"
+            :placeholder="item.placeholder"
+            v-if="item.type === formTypeEnum.password"
+            :disabled="item.disabled"
+            :type="item.type"
+            :maxlength="item.maxlength"
+            show-password
+            @change="onChange"
+          />
+
+          <!--数字类型-->
+          <el-input
+            v-model.number="queryForm[item.prop]"
+            :placeholder="item.placeholder"
+            v-if="item.type === formTypeEnum.number"
+            :disabled="item.disabled"
+            :type="item.type"
+            :maxlength="item.maxlength"
+            @change="onChange"
+          />
+
+          <!--文本域类型-->
+          <el-input
+            v-model="queryForm[item.prop]"
+            :placeholder="item.placeholder"
+            v-if="item.type === formTypeEnum.textarea"
+            :disabled="item.disabled"
+            :type="item.type"
+            :maxlength="item.maxlength"
+            :show-word-limit="true"
+            :rows="item.rows"
             @change="onChange"
           />
 
@@ -31,6 +78,36 @@
               :value="child[item.itemProp.value]"
             />
           </el-select>
+
+          <!--级联选择-->
+          <el-cascader
+            v-model="queryForm[item.prop]"
+            :placeholder="item.placeholder"
+            v-if="item.type === formTypeEnum.cascader"
+            :options="item.itemList"
+            :props="item.itemProp"
+            :disabled="item.disabled"
+            :readonly="item.readonly"
+            :filterable="item.filterable"
+            @change="onChange(item)"
+          >
+          </el-cascader>
+
+          <!--多选checkbox-->
+          <!--          <el-checkbox-group-->
+          <!--            v-model="queryForm[item.prop]"-->
+          <!--            v-if="item.type === formTypeEnum.checkbox"-->
+          <!--            @change="onChange(item)"-->
+          <!--          >-->
+          <!--            <el-checkbox-->
+          <!--              v-for="child in item.itemList && item.itemList.length > 0"-->
+          <!--              :key="child[item.itemProp.value]"-->
+          <!--              :label="child[item.itemProp.value]"-->
+          <!--              :disabled="child.state"-->
+          <!--            >-->
+          <!--              {{ child[item.itemProp.label] }}-->
+          <!--            </el-checkbox>-->
+          <!--          </el-checkbox-group>-->
         </el-form-item>
       </template>
       <el-form-item>
@@ -110,7 +187,7 @@ export default {
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          this.$emit('change', this.queryForm)
+          this.$emit('submit', this.queryForm)
         } else {
           console.log('error submit!!')
           return false

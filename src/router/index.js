@@ -67,6 +67,22 @@ export const constantRoutes = [
  */
 export const endBasicRoutes = [
   {
+    path: '/demo',
+    component: Layout,
+    meta: { title: 'demo' },
+    alwaysShow: true,
+    children: [
+      {
+        path: '/baseFormDemo',
+        name: 'baseFormDemo',
+        component: () => import('@/views/demo/baseFormDemo.vue'),
+        meta: {
+          title: 'baseFormDemo'
+        }
+      }
+    ]
+  },
+  {
     path: '/',
     component: Layout,
     hidden: true,

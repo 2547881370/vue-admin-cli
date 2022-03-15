@@ -115,7 +115,7 @@ yarn build
   + baseForm组件的使用demo
     ```js
     <template>
-        <base-form inline :options="formOptions" @change="onChange" @reset="onReset" v-model="queryForm"> </base-form>
+        <base-form inline :options="formOptions" @submit="onSubmit" @reset="onReset" v-model="queryForm"> </base-form>
     </template>
 
     {
@@ -170,7 +170,7 @@ yarn build
             }
         },
         methods : {
-            onChange(formData){
+            onSubmit(formData){
                 console.log(formData,"表单值")
             },
             onReset(){

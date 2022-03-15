@@ -15,7 +15,7 @@ export const FormTypeEnum = {
   // 下拉选择
   selector: 'selector',
   // 级联选择
-  cascader: 'cascader ',
+  cascader: 'cascader',
   // 单选按钮
   radio: 'radio',
   // 多选按钮
