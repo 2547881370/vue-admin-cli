@@ -94,20 +94,20 @@
           </el-cascader>
 
           <!--多选checkbox-->
-          <!--          <el-checkbox-group-->
-          <!--            v-model="queryForm[item.prop]"-->
-          <!--            v-if="item.type === formTypeEnum.checkbox"-->
-          <!--            @change="onChange(item)"-->
-          <!--          >-->
-          <!--            <el-checkbox-->
-          <!--              v-for="child in item.itemList && item.itemList.length > 0"-->
-          <!--              :key="child[item.itemProp.value]"-->
-          <!--              :label="child[item.itemProp.value]"-->
-          <!--              :disabled="child.state"-->
-          <!--            >-->
-          <!--              {{ child[item.itemProp.label] }}-->
-          <!--            </el-checkbox>-->
-          <!--          </el-checkbox-group>-->
+          <el-checkbox-group
+            v-model="queryForm[item.prop]"
+            v-if="item.type === formTypeEnum.checkbox"
+            @change="onChange(item)"
+          >
+            <el-checkbox
+              v-for="child in item.itemList"
+              :key="child[item.itemProp.value]"
+              :label="child[item.itemProp.value]"
+              :disabled="child.state"
+            >
+              {{ child[item.itemProp.label] }}
+            </el-checkbox>
+          </el-checkbox-group>
         </el-form-item>
       </template>
       <el-form-item>
@@ -155,11 +155,10 @@ export default {
     }
   },
   created() {
+    this.initData()
     this.formatOptions()
   },
-  mounted() {
-    this.initData()
-  },
+  mounted() {},
   methods: {
     // init
     initData() {
@@ -170,7 +169,14 @@ export default {
     formatOptions() {
       for (let index = 0; index < this.options.length; index++) {
         let item = this.options[index]
+
+        // 设置表单校验
         this.setRules(item)
+
+        // 如果包含多选框时,model必须为array
+        if (item.type === this.formTypeEnum.checkbox) {
+          this.$set(this.queryForm, item.prop, this.formData[item.prop] || [])
+        }
       }
     },
 

@@ -416,22 +416,22 @@ export default {
             value: 'value',
             multiple: true
           }
+        },
+        {
+          type: FormTypeEnum.checkbox,
+          placeholder: '多选',
+          required: false,
+          disabled: false,
+          prop: 'checkboxValue',
+          label: '多选',
+          // 下拉字典值列表
+          itemList: CheckboxData,
+          // 字典值列表中的key value名称
+          itemProp: {
+            label: 'label',
+            value: 'value'
+          }
         }
-        // {
-        //   type: FormTypeEnum.checkbox,
-        //   placeholder: '多选',
-        //   required: false,
-        //   disabled: false,
-        //   prop: 'checkboxValue',
-        //   label: '多选',
-        //   // 下拉字典值列表
-        //   itemList: CheckboxData,
-        //   // 字典值列表中的key value名称
-        //   itemProp: {
-        //     label: 'label',
-        //     value: 'value'
-        //   }
-        // }
       ]
     }
   },
