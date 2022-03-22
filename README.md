@@ -82,6 +82,8 @@ yarn build
   + config
     + setting.config [通用配置]
   + i18n [国际化]
+  + decorator [装饰器]
+  + directive [自定义指令]
   + layout
   + icons
   + router
